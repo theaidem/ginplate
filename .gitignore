@@ -1,0 +1,9 @@
+.sass-cache
+.DS_Store
+.tmp
+
+ginplate
+Gododir/godobin-1.4.5
+static/node_modules
+static/dist
+static/bower

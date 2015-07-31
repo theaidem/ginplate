@@ -1,0 +1,32 @@
+{{define "header"}}
+<div class="following bar">
+  <div class="ui container">
+    <div class="ui large secondary network menu inverted">
+      <div class="item">
+        <div class="ui logo shape">
+          <div class="sides">
+            <div class="active ui side"><img src="/images/logo.png" class="ui image"/></div>
+          </div>
+        </div>
+      </div><a class="view-ui item"><i class="sidebar icon"></i> Menu</a>
+      <div class="right menu inverted">
+        <div class="item"></div>
+        <div id="languages" class="ui language floating dropdown link item"><i class="world icon"></i>
+          <div class="text">English</div>
+          <div class="menu inverted">
+            <div class="header">Search Languages</div>
+            <div class="ui icon search input"><i class="search icon"></i>
+              <input type="text" placeholder="Search languages..."/>
+            </div>
+            <div class="scrolling menu inverted">
+              <div data-percent="100" data-value="en" data-text="English" data-english="English" class="item active selected"><span class="description">English</span>								English</div>
+              <div data-percent="37" data-value="ru" data-text="Русский" data-english="Russian" class="item"><span class="description">Русский</span>								Russian</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Sidebar Menu-->
+<div class="ui vertical inverted sidebar menu left"><a class="item">Home</a><a class="item">Work</a><a class="item">Company</a><a class="item">Careers</a><a class="item">Login</a><a class="item">Signup</a></div>{{end}}

@@ -1,0 +1,30 @@
+{
+  "name": "stapp",
+  "version": "0.0.1",
+  "homepage": "https://github.com/theaidem/stapp",
+  "license": "MIT",
+  "authors": [
+    "kokorin.max <kokorin.max@gmail.com>"
+  ],
+  "private": true,
+  "engines": {
+    "node": "*",
+    "npm": "*"
+  },
+  "devDependencies": {
+    "bower": "^1.4.1",
+    "coffee-script": "^1.9.2",
+    "del": "^1.1.1",
+    "gulp": "^3.8.11",
+    "gulp-bower": "0.0.10",
+    "gulp-changed": "^1.2.1",
+    "gulp-coffee": "^2.3.1",
+    "gulp-notify": "^2.2.0",
+    "gulp-plumber": "^1.0.0",
+    "gulp-sourcemaps": "^1.5.2",
+    "gulp-util": "^3.0.4",
+    "gulp-watch": "^4.2.4",
+    "run-sequence": "^1.1.0",
+    "wiredep": "^2.2.2"
+  }
+}
