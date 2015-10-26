@@ -2,8 +2,8 @@
 .DS_Store
 .tmp
 
-ginplate
-Gododir/godobin-1.4.5
-static/node_modules
-static/dist
-static/bower
+app
+frontend/node_modules
+frontend/dist
+frontend/app/bower_components
+backend/bindata.go
