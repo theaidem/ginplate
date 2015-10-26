@@ -1,0 +1,30 @@
+{
+	"name": "stapp",
+	"version": "0.0.1",
+	"homepage": "https://github.com/theaidem/stapp",
+	"license": "MIT",
+	"authors": [
+		"kokorin.max <kokorin.max@gmail.com>"
+	],
+
+	"overrides":{
+		"semantic-ui" : {
+			"main": [
+				"dist/semantic.css",
+				"dist/semantic.js"
+			]
+		},
+		"react" : {
+			"main": [
+				"react.js",
+				"react-dom.js"
+			]
+		}
+	},
+
+	"dependencies": {
+		"semantic-ui"		: "^2.1.4",
+		"react"				: "^0.14.0",
+		"react-router"		: "^0.13.4"
+	}
+}
