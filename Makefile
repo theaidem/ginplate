@@ -3,17 +3,19 @@ APPNAME = app
 BACKEND = ./backend
 FRONTEND = ./frontend
 BINDATA = $(BACKEND)/bindata.go
-BINDATA_FLAGS = -pkg=main -o=$(BINDATA) -prefix=frontend/dist
+BINDATA_FLAGS = -pkg=main -o=$(BINDATA)
 
-setup_go: 
+setup: 
+	@cd $(FRONTEND) && npm i && gulp build
 	@go get github.com/jteeuwen/go-bindata/...
+	@make bindata
 	@go get $(BACKEND)/...
 	@echo setup: OK!
 
-setup_node:
-	@cd $(FRONTEND) && npm i
-
-build: bindata
+build: clean
+	@cd $(FRONTEND) && gulp build
+	@make bindata
+	@go build -o=$(BIN)/$(APPNAME) -ldflags "-w -X main.buildstamp=`date -u '+%Y-%m-%d_%I:%M:%S%p'` -X main.mode=`echo 'release'`" ./backend
 	@echo build: OK!
 
 clean:
@@ -22,8 +24,10 @@ clean:
 	@echo clean: OK!
 
 serve:
-	@go build -o=./$(APPNAME) ./backend && ./$(APPNAME)
+	@cd $(FRONTEND) && gulp &
+	@go build -o=./$(APPNAME) -ldflags "-w -X main.mode=`echo 'debug'`" ./backend && ./$(APPNAME)
 
 bindata:
 	$(BIN)/go-bindata $(BINDATA_FLAGS) $(FRONTEND)/dist/...
+	@echo bindata: OK!
 

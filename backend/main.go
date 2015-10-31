@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"fmt"
 	"html/template"
 	"io"
 	"net/http"
@@ -9,13 +10,13 @@ import (
 
 	"github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
-	"github.com/shirou/gopsutil/cpu"
-	"github.com/shirou/gopsutil/disk"
 	"github.com/shirou/gopsutil/host"
 )
 
+var mode, buildstamp string
+
 func init() {
-	gin.SetMode(gin.DebugMode)
+	gin.SetMode(mode)
 }
 
 func main() {
@@ -38,19 +39,20 @@ func main() {
 	// For SPA Router
 	router.NoRoute(index)
 
-	router.Group("/api").
-		Group("/static").
-		GET("/host", hostInfo).
-		GET("/cpu", cpuInfo).
-		GET("/cput", cpuTimes).
-		GET("/users", usersInfo).
-		GET("/disk", diskInfo)
+	api := router.Group("/api")
 
-	router.GET("/stream", stream)
+	xhr := api.Group("/xhr")
+
+	xhr.Group("/admin").
+		GET("/host", hostInfo)
+
+	sse := api.Group("/sse")
+	sse.GET("/stream", stream)
 
 	server := &http.Server{
 		Addr:    ":8080",
 		Handler: router,
+		//Comment timeouts if you use SSE streams
 		//ReadTimeout: 10 * time.Second,
 		//WriteTimeout:   10 * time.Second,
 		MaxHeaderBytes: 1 << 20,
@@ -69,6 +71,7 @@ func index(ctx *gin.Context) {
 
 	} else if gin.Mode() == gin.ReleaseMode {
 
+		fmt.Println(buildstamp, mode)
 		templateString, err := Asset("frontend/dist/index.html")
 		if err != nil {
 			ctx.AbortWithError(http.StatusInternalServerError, err)
@@ -100,46 +103,6 @@ func index(ctx *gin.Context) {
 func hostInfo(ctx *gin.Context) {
 	// For static
 	info, err := host.HostInfo()
-	if err != nil {
-		ctx.AbortWithError(http.StatusInternalServerError, err)
-		return
-	}
-	ctx.JSON(http.StatusOK, info)
-}
-
-func cpuInfo(ctx *gin.Context) {
-	// For static
-	info, err := cpu.CPUInfo()
-	if err != nil {
-		ctx.AbortWithError(http.StatusInternalServerError, err)
-		return
-	}
-	ctx.JSON(http.StatusOK, info)
-}
-
-func cpuTimes(ctx *gin.Context) {
-	// For Stream
-	info, err := cpu.CPUTimes(true)
-	if err != nil {
-		ctx.AbortWithError(http.StatusInternalServerError, err)
-		return
-	}
-	ctx.JSON(http.StatusOK, info)
-}
-
-func usersInfo(ctx *gin.Context) {
-	// For static
-	info, err := host.Users()
-	if err != nil {
-		ctx.AbortWithError(http.StatusInternalServerError, err)
-		return
-	}
-	ctx.JSON(http.StatusOK, info)
-}
-
-func diskInfo(ctx *gin.Context) {
-	// For stream
-	info, err := disk.DiskIOCounters()
 	if err != nil {
 		ctx.AbortWithError(http.StatusInternalServerError, err)
 		return

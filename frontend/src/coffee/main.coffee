@@ -9,27 +9,10 @@ NotFoundRoute	= Router.NotFoundRoute
 App = React.createClass
 	displayName: "App"
 
-	getInitialState:->
-		{mem:{}, host:{}, users:[], cpu:[], diskIO:{}, diskP:[], diskU:{}, netI:[]}
 
 	componentDidMount:->
-		jqxhr = $.getJSON('api/static/host')
-		jqxhr.success (data)=>
-			console.log data
-			@setState {host: data}
-		
-		jqxhr.error (data)=>
-			console.log data
-			
-		jqxhr.complete (data)=>
-			console.log data
-
-		source = new EventSource('/stream')
-		source.addEventListener 'message', @onMem
 
 	onMem:(e)->
-		mem = JSON.parse e.data
-		console.log mem
 
 	render:->
 		<div className="ui thesys container">
@@ -45,8 +28,6 @@ Menu = React.createClass
 				<i className="setting loading large green icon"></i>thesys
 			</div>
 			<Link to="about" className="item" >About</Link>
-			<a className="item">Features</a>
-			<a className="item">Testimonials</a>
 			<a className="item">Sign-in</a>
 		</div>
 
